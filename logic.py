@@ -10,6 +10,7 @@ class Pokemon:
         self.name = None
         self.power = random.randint(30, 60)
         self.hp = random.randint(200, 400)
+        self.point = 0
         if pokemon_trainer not in Pokemon.pokemons:
             Pokemon.pokemons[pokemon_trainer] = self
         else:
@@ -21,7 +22,8 @@ class Pokemon:
             return f"Pertempuran @{self.pokemon_trainer} dengan @{enemy.pokemon_trainer}\nKesehatan @{enemy.pokemon_trainer} sekarang {enemy.hp}"
         else:
             enemy.hp = 0
-            return f'@{self.pokemon_trainer} menang dari @{enemy.pokemon_trainer}!'
+            self.point+=1
+            return f'@{self.pokemon_trainer} menang dari @{enemy.pokemon_trainer}!\nPoint@{self.pokemon_trainer} sekarang {self.point}'
 
     async def get_name(self):
         # An asynchronous method to get the name of a pokémon via PokeAPI
