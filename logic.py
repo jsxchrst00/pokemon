@@ -17,6 +17,11 @@ class Pokemon:
             self = Pokemon.pokemons[pokemon_trainer]
 
     async def attack(self, enemy):
+        if isinstance(enemy, Wizard):
+            chance = random.randint(1, 5)
+            if chance == 1:
+                return "Pokemon Wizard menggunakan perisai dalam pertarungan"
+
         if enemy.hp > self.power:
             enemy.hp -= self.power
             return f"Pertempuran @{self.pokemon_trainer} dengan @{enemy.pokemon_trainer}\nKesehatan @{enemy.pokemon_trainer} sekarang {enemy.hp}"
@@ -24,6 +29,7 @@ class Pokemon:
             enemy.hp = 0
             self.point+=1
             return f'@{self.pokemon_trainer} menang dari @{enemy.pokemon_trainer}!\nPoint@{self.pokemon_trainer} sekarang {self.point}'
+            
 
     async def get_name(self):
         # An asynchronous method to get the name of a pokémon via PokeAPI
@@ -40,7 +46,7 @@ class Pokemon:
         # A method that returns information about the pokémon
         if not self.name:
             self.name = await self.get_name()  # Retrieving a name if it has not yet been uploaded
-        return f"The name of your Pokémon: {self.name}"  # Returning the string with the Pokémon's name
+        return f"Pokémon's name: {self.name}\nHP : {self.hp}\nPower: {self.power}"  # Returning the string with the Pokémon's name
 
     async def show_img(self):
         # An asynchronous method to get the name of a Pokémon via PokeAPI
@@ -55,3 +61,17 @@ class Pokemon:
                     return None  # Returning None if the request fails
 
         
+class Wizard(Pokemon):
+    pass
+
+
+
+
+class Fighter(Pokemon):
+    async def attack(self, enemy):
+        ultimate = random.randint(5,15)
+        self.power += ultimate
+        result = await ultimate().attack(enemy)
+        self.power-=ultimate
+        result + f"\nPetarung menggunakan serangan super dengan kekuatan:{ultimate}!"
+
